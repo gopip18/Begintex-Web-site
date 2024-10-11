@@ -1,7 +1,7 @@
 # Begintex-main.py
 import streamlit as st
 from Latex_Services import show_latex_services
-import pandas as pd
+import os
 
 # Set up the Streamlit page configuration
 st.set_page_config(page_title="BeginTex Website", layout="wide")
@@ -97,17 +97,24 @@ st.sidebar.markdown(
     unsafe_allow_html=True
 )
 
-st.sidebar.markdown("### 📊 Analytics Data")
+# Define the file to store view count
+view_count_file = "views.txt"
 
-# Handle the absence of the JSON file and display a friendly message
-try:
-    # Try reading the analytics data from the JSON file
-    analytics_data = pd.read_json("usage_data.json")
-    # Display the data in the sidebar as a dataframe
-    st.sidebar.dataframe(analytics_data)
-except FileNotFoundError:
-    # If the file is not found, display a message in the sidebar
-    st.sidebar.write("No analytics data available yet. Please generate some data.")
-except ValueError:
-    # Handle other JSON parsing errors gracefully
-    st.sidebar.write("Analytics data is not properly formatted.")
+# Initialize view count if the file does not exist
+if not os.path.exists(view_count_file):
+    with open(view_count_file, "w") as f:
+        f.write("0")  # Set initial count to 0
+
+# Read the current view count from the file
+with open(view_count_file, "r") as f:
+    count = int(f.read())
+
+# Increment the count by 1 for each new visit
+count += 1
+
+# Update the file with the new count
+with open(view_count_file, "w") as f:
+    f.write(str(count))
+
+# Display the total view count in the sidebar or main page
+st.sidebar.markdown(f"### 👁️ Total Views: **{count}**")
