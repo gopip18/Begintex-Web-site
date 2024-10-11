@@ -3,8 +3,19 @@ import streamlit as st
 from Latex_Services import show_latex_services
 import os
 
+
 # Set up the Streamlit page configuration
 st.set_page_config(page_title="BeginTex Website", layout="wide")
+
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            </style>
+            """
+
+st.markdown(hide_st_style, unsafe_allow_html=True)
 
 # Sidebar Menu Navigation
 st.sidebar.title("BeginTex Navigation")
